@@ -1,651 +1,1508 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="mediaqueries.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kalkidan Dagnu — Portfolio</title>
+
+    <!-- Fonts: Playfair Display for headings, Poppins for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Boxicons -->
+    <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+        /* ---------- Base ---------- */
+        :root{
+          --blue:#1e73ff;
+          --muted:#7a8491;
+          --accent:#e9f2ff;
+          --card:#ffffff;
+          --soft:#f6f7fb;
+          --serif:'Playfair Display', serif;
+          --sans:'Poppins', sans-serif;
+        }
+
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+          margin:0;
+          font-family:var(--sans);
+          color:#222;
+          background:#fff;
+          -webkit-font-smoothing:antialiased;
+          -moz-osx-font-smoothing:grayscale;
+          line-height:1.6;
+        }
+
+        a{color:inherit;text-decoration:none}
+
+        /* ---------- SIDE NAV ---------- */
+        .side-nav{
+          position:fixed;
+          left:18px;
+          top:50%;
+          transform:translateY(-50%);
+          display:flex;
+          flex-direction:column;
+          gap:14px;
+          z-index:120;
+        }
+        .side-nav a{
+          width:44px;height:44px;border-radius:50%;
+          display:inline-flex;align-items:center;justify-content:center;
+          background:#fff;border:1px solid #e6e9ef;color:#1a1f2b;
+          box-shadow:0 6px 18px rgba(22,27,34,0.06);
+          font-size:18px;
+          transition:transform .22s ease, box-shadow .22s ease;
+        }
+        .side-nav a:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(22,27,34,0.08)}
+
+        /* ---------- HERO ---------- */
+        .hero{
+          min-height:88vh;
+          padding:70px 8%;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          background:linear-gradient(110deg,#231010 0%, #01132b 100%);
+          color:#fff;
+        }
+        .hero-text{max-width:54%}
+        .hero h1{
+          font-family:var(--serif);
+          font-weight:700;
+          font-size:48px;
+          margin:0 0 8px;
+          letter-spacing:0.3px;
+        }
+        .hero h2{
+          font-family:var(--serif);
+          font-weight:500;
+          font-size:20px;
+          margin:0 0 18px;
+          color:#bfe0ff;
+        }
+        .hero p{max-width:600px;color:#d7e7ff}
+        .hero img {
+          width: 360px;
+          height: 360px;
+          object-fit: cover;
+          border-radius: 10px;
+          box-shadow: 0 40px 80px rgba(2, 8, 23, 0.5);
+          border: 3px solid rgba(255, 255, 255, 0.06);
+          transition: transform 0.5s ease; /* smooth zoom */
+      }
+
+      .hero img:hover {
+          transform: scale(1.3); /* increase zoom to 30% */
+      }
+
+        /* ---------- SECTION ---------- */
+        section{padding:80px 10%}
+        .section-title{
+          font-family:var(--serif);
+          text-align:center;
+          font-size:26px;
+          margin-bottom:16px;
+          position:relative;
+          letter-spacing:0.4px;
+          color:#26303b;
+        }
+        .section-title::after{
+          content:"";
+          display:block;
+          width:64px;
+          height:6px;
+          background:linear-gradient(90deg,var(--blue),#3ab0ff);
+          border-radius:4px;
+          margin:10px auto 0;
+          box-shadow:0 2px 0 rgba(0,0,0,0.03);
+        }
+        .section-title::before{
+          content:"";
+          display:block;
+          width:120px;
+          height:2px;
+          background:#e6edf8;
+          margin:-6px auto 0;
+          position:relative;
+          z-index:-1;
+        }
+
+        .small-intro{
+          max-width:900px;margin:0 auto 24px;color:var(--muted);text-align:center
+        }
+
+        /* ---------- ABOUT ---------- */
+        .about{
+          display:flex;gap:40px;align-items:center;justify-content:center;
+          flex-wrap:wrap;
+        }
+        .about img{width:220px;border-radius:12px}
+        .about p{max-width:720px;color:#495057}
+
+        /* ---------- SKILLS ---------- */
+        .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
+        .skill-card{background:var(--soft);padding:22px;border-radius:12px;box-shadow:0 6px 30px rgba(2,8,23,0.03)}
+        .skill-card h4{margin:0 0 8px;font-weight:600}
+        .skill-bar{height:10px;background:#e9eefc;border-radius:999px;overflow:hidden}
+        .skill-bar > span{display:block;height:100%;background:var(--blue);width:0}
+
+        /* ---- Resume Timeline ---- */
+        .resume-intro{
+          text-align:center;
+          max-width:700px;
+          margin:0 auto 40px;
+          color:#555;
+          line-height:1.6;
+        }
+        .download-resume-btn{
+          display:inline-block;
+          padding:12px 25px;
+          background:var(--blue);
+          color:#fff;
+          border-radius:8px;
+          text-decoration:none;
+          font-weight:600;
+          margin-bottom:40px;
+          transition:transform .18s ease, box-shadow .18s ease;
+        }
+        .download-resume-btn:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(30,115,255,0.14)}
+
+        .resume-grid{
+          display:grid;
+          grid-template-columns:1fr 1fr;
+          gap:40px;
+          margin-top:28px;
+        }
+
+        .timeline{
+          position:relative;
+          padding-left:36px;
+        }
+        .timeline::before{
+          content:"";
+          position:absolute;
+          left:12px;
+          top:0;
+          bottom:0;
+          width:3px;
+          background:var(--blue);
+          border-radius:2px;
+          opacity:1;
+        }
+        .timeline-item{position:relative;margin-bottom:32px;padding-bottom:6px}
+        .timeline-bullet{
+          position:absolute;
+          left:-1px;
+          top:6px;
+          width:14px;height:14px;border-radius:50%;
+          background:#fff;border:3px solid var(--blue);
+          box-shadow:0 4px 14px rgba(30,115,255,0.12)
+        }
+        .timeline-item h4{margin:0 0 6px;font-size:16px;font-weight:700}
+        .timeline-item .meta{font-size:13px;color:var(--muted);margin-bottom:8px}
+        .timeline-item p{color:#333;margin:0 0 8px}
+        .timeline-item ul{margin:0;padding-left:18px;color:#444}
+
+        /* ---------- PORTFOLIO ---------- */
+        .portfolio-grid{
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+          gap:22px;
+          margin-top:28px;
+        }
+        .project-card{
+          border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 10px 30px rgba(12,22,48,0.06);
+          display:flex;flex-direction:column;transition:transform .28s cubic-bezier(.2,.9,.2,1),box-shadow .28s cubic-bezier(.2,.9,.2,1),filter .28s;
+          will-change:transform,box-shadow;
+        }
+        .project-card:hover{
+          transform:translateY(-10px) scale(1.01);
+          box-shadow:0 30px 60px rgba(12,22,48,0.14);
+          filter:contrast(1.02);
+        }
+        .project-thumb{height:160px;background:#111;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px}
+        .project-meta{padding:14px;background:linear-gradient(180deg,#fff,#fbfdff);display:flex;align-items:center;gap:12px}
+        .project-meta strong{font-family:var(--serif);font-size:16px;display:block}
+        .project-meta .muted{color:var(--muted);font-size:13px}
+        .tech-icons{display:flex;gap:8px;align-items:center}
+        .tech-icons img{width:34px;height:34px;border-radius:6px;object-fit:contain;background:#fff;padding:6px;box-shadow:0 6px 18px rgba(2,8,23,0.04)}
+
+        /* Hover overlay subtle */
+        .project-card .project-thumb::after{
+          content:"";
+          position:absolute;
+          left:0;right:0;top:0;height:160px;
+          pointer-events:none;
+          transition:opacity .28s;
+          opacity:0;
+        }
+        .project-card:hover .project-thumb::after{opacity:0.06;background:linear-gradient(180deg,#000,#000)}
+
+        /* ---------- SERVICES ---------- */
+        .services-grid{
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+          gap:22px;margin-top:20px;
+        }
+        .service-card{
+          background:linear-gradient(180deg,#fff,#fbfdff);
+          border-radius:12px;padding:26px;box-shadow:0 10px 30px rgba(12,22,48,0.04);
+          min-height:200px;display:flex;flex-direction:column;align-items:center;text-align:center;
+          transition:transform .25s cubic-bezier(.2,.9,.2,1),box-shadow .25s,background .25s;
+          will-change:transform,box-shadow;
+        }
+        .service-card:hover{
+          transform:translateY(-10px);
+          box-shadow:0 30px 60px rgba(12,22,48,0.12);
+          background:linear-gradient(180deg,#fbfdff,#f6fbff);
+        }
+        .service-icon{
+          width:66px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:12px;
+          background:linear-gradient(180deg,#f6fbff,#eef6ff);border:1px solid #eef7ff;
+        }
+        .service-card h4{margin:6px 0;font-size:16px;font-family:var(--serif)}
+        .service-card p{color:#5d6770;font-size:14px}
+
+        /* ---------- CONTACT ---------- */
+
+      #contact{
+        padding-top:90px;
+      }
+
+      .contact-desc{
+        max-width:950px;
+        margin:auto;
+        text-align:center;
+        line-height:1.75;
+        margin-bottom:65px;
+        color:#555;
+        font-size:17px;
+        padding:0 80px;
+      }
+
+      /* GRID */
+      .contact-grid{
+        display:flex;
+        justify-content:flex-start;
+        align-items:flex-start;
+        gap:80px;
+        margin-top:60px;
+        padding-left:140px; /* ← this gives indentation */
+      }
+
+
+      /* LEFT COLUMN */
+      .contact-left{
+        display:flex;
+        flex-direction:column;
+        gap:32px;
+      }
+
+      .contact-item{
+        display:flex;
+        align-items:flex-start;
+        gap:22px;
+        min-width:350px;
+      }
+
+      .contact-item h3{
+        font-size:22px;
+        font-family:"Playfair Display", serif;
+        margin-bottom:6px;
+      }
+
+      .contact-item div p{
+        margin-top:2px;
+        font-size:15px;
+        line-height:1.45;
+        color:#555;
+      }
+
+      /* ICON CIRCLE */
+      .icon-box{
+        width:55px;
+        height:55px;
+        border-radius:50%;
+        background:#e8f3ff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:28px;
+        color:#007bff;
+        margin-top:2px;
+      }
+
+      /* RIGHT IMAGE */
+      .contact-right img{
+        width:450px;
+        opacity:.95;
+        margin-right:60px; /* pushes inward */
+      }
+
+      /* ========== MOBILE ========== */
+      @media(max-width:900px){
+
+        .contact-desc{
+          padding:0 20px;
+          margin-bottom:45px;
+        }
+
+      .contact-grid{
+        display:flex;
+        justify-content:flex-start;
+        align-items:flex-start;
+        gap:80px;
+        margin-top:60px;
+        padding-left:140px; /* ← this gives indentation */
+      }
+
+
+        .contact-right img{
+          margin:40px 0 0 0;
+          width:300px;
+        }
+
+        .contact-item{
+          justify-content:center;
+        }
+      }
+
+        /* ---------- FOOTER ---------- */
+        footer{
+          margin-top:40px;padding:34px 10%;background:#f1f6fb;border-top:1px solid #e6eef8;text-align:center;
+        }
+        footer h3{
+      font-size: 36px;
+        font-weight: 700;
+        position: relative;
+        font-family: "Poppins", sans-serif;
+        padding: 0;
+        margin: 0 0 15px 0;  }
+        .socials{display:flex;gap:12px;justify-content:center;margin-top:12px}
+        .socials a{width:40px;height:40px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6eef8;box-shadow:0 8px 20px rgba(12,22,48,0.04)}
+        .socials a svg{width:18px;height:18px;fill:#1a1f2b}
+
+          footer p {
+              font-style: italic;
+              padding: 0;
+              margin: 0 0 40px 0;
+      }
+
+      footer .social-links{
+        margin-top:20px;
+        display:flex;
+        gap:15px;
+        justify-content:center;
+      }
+      footer .social-links a{
+        width:45px;
+        height:45px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#fff;
+        border:1px solid #ddd;
+        color:#007bff;
+        font-size:22px;
+        transition:.3s ease;
+      }
+      footer .social-links a:hover{
+        background:#007bff;
+        color:#fff;
+        transform:translateY(-4px);
+      }
+
+          }
+
+          /* --- SCROLL ANIMATION ENHANCED --- */
+      /* INTENSE SECTION REVEAL */
+      section.reveal {
+        opacity: 0;
+        transform: translateY(80px) scale(0.85) rotateX(15deg);
+        filter: blur(10px);
+        transition:
+            opacity 1.1s ease-out,
+            transform 1.1s cubic-bezier(0.16, 0.8, 0.44, 1),
+            filter 1s ease-out;
+        transform-origin: center top;
+      }
+
+      section.reveal.visible {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0deg);
+        filter: blur(0);
+      }
+
+        /* ---------- responsive ---------- */
+        @media (max-width:980px){
+          .hero{padding:48px 6%}
+          .hero-text{max-width:100%}
+          .hero img{width:260px;height:260px}
+          section{padding:48px 6%}
+          .resume-grid{grid-template-columns:1fr}
+          .contact-wrap{grid-template-columns:1fr}
+          .project-thumb{height:140px}
+        }
+        @media (max-width:560px){
+          .hero img{width:200px;height:200px}
+          .section-title{font-size:20px}
+          .skills-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+        }
+
+
+
+    </style>
 </head>
+
 <body>
-<nav id="desktop-nav">
-    <div class="logo">Kalkidan Dagnu</div>
-    <div>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+
+<!-- SIDE NAV -->
+<div class="side-nav">
+    <a href="#home">🏠</a>
+    <a href="#about">👤</a>
+    <a href="#skills">🛠</a>
+    <a href="#resume">📄</a>
+    <a href="#portfolio">📁</a>
+    <a href="#services">🧩</a>
+    <a href="#contact">✉</a>
+</div>
+
+<!-- HERO -->
+<section class="hero reveal-section" id="home">
+    <div class="hero-text">
+        <h1>Kalkidan Dagnu</h1>
+        <h2>I am a <span id="typing"></span></h2>
+        <p>Software Engineer specializing in backend development, microservices and scalable enterprise applications.</p>
     </div>
-</nav>
-<nav id="hamburger-nav">
-    <div class="logo">Kalkidan Dagnu</div>
-    <div class="hamburger-menu">
-        <div class="hamburger-icon" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="menu-links">
-            <li><a href="#about" onclick="toggleMenu()">About</a></li>
-            <li><a href="#experience" onclick="toggleMenu()">Experience</a></li>
-            <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
-            <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
-        </div>
+    <img src="./assets/pro_pic.png" alt="Profile">
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="reveal reveal-section">
+    <h2 class="section-title">ABOUT</h2>
+    <p class="small-intro">Skilled Software Engineer with 4+ years of experience in backend development, microservices architecture, enterprise banking solutions and cloud-native engineering using Java, Kotlin and Spring Boot.</p>
+
+    <div class="about" style="margin-top:26px">
+        <img src="./assets/profile_pic.jpg" alt="Kalkidan">
+        <p>Experienced in building robust, scalable systems (ETL, microservices, APIs) and collaborating across DevOps and frontend teams. Proficient with PostgreSQL, MongoDB, Kafka, Docker and CI/CD tooling. Passionate about delivering reliable systems and improving developer experience.</p>
     </div>
-</nav>
-<section id="profile">
-    <div class="section__pic-container">
-        <img src="./assets/profile-pic.png" alt="Kal's profile picture" />
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="reveal reveal-section">
+    <h2 class="section-title">SKILLS</h2>
+    <div class="skills-grid">
+
+        <!-- Languages -->
+        <div class="skill-card"><h4>Java</h4><div class="skill-bar"><span style="width:90%"></span></div></div>
+        <div class="skill-card"><h4>Kotlin</h4><div class="skill-bar"><span style="width:86%"></span></div></div>
+        <div class="skill-card"><h4>JavaScript</h4><div class="skill-bar"><span style="width:80%"></span></div></div>
+        <div class="skill-card"><h4>TypeScript</h4><div class="skill-bar"><span style="width:78%"></span></div></div>
+
+        <!-- Frameworks -->
+        <div class="skill-card"><h4>Spring Boot</h4><div class="skill-bar"><span style="width:92%"></span></div></div>
+        <div class="skill-card"><h4>Angular</h4><div class="skill-bar"><span style="width:85%"></span></div></div>
+        <div class="skill-card"><h4>React</h4><div class="skill-bar"><span style="width:80%"></span></div></div>
+        <div class="skill-card"><h4>Hibernate</h4><div class="skill-bar"><span style="width:75%"></span></div></div>
+
+        <!-- Tools / DevOps / Cloud -->
+        <div class="skill-card"><h4>Kafka</h4><div class="skill-bar"><span style="width:88%"></span></div></div>
+        <div class="skill-card"><h4>RabbitMQ</h4><div class="skill-bar"><span style="width:82%"></span></div></div>
+        <div class="skill-card"><h4>Redis</h4><div class="skill-bar"><span style="width:75%"></span></div></div>
+        <div class="skill-card"><h4>PostgreSQL</h4><div class="skill-bar"><span style="width:80%"></span></div></div>
+        <div class="skill-card"><h4>MongoDB</h4><div class="skill-bar"><span style="width:78%"></span></div></div>
+
+        <div class="skill-card"><h4>Docker</h4><div class="skill-bar"><span style="width:85%"></span></div></div>
+        <div class="skill-card"><h4>Kubernetes</h4><div class="skill-bar"><span style="width:78%"></span></div></div>
+        <div class="skill-card"><h4>Helm</h4><div class="skill-bar"><span style="width:70%"></span></div></div>
+
+        <div class="skill-card"><h4>AWS</h4><div class="skill-bar"><span style="width:70%"></span></div></div>
+        <div class="skill-card"><h4>Google Cloud</h4><div class="skill-bar"><span style="width:68%"></span></div></div>
+
+        <div class="skill-card"><h4>GitHub Actions</h4><div class="skill-bar"><span style="width:75%"></span></div></div>
+        <div class="skill-card"><h4>GitLab CI/CD</h4><div class="skill-bar"><span style="width:72%"></span></div></div>
+        <div class="skill-card"><h4>Jenkins</h4><div class="skill-bar"><span style="width:78%"></span></div></div>
+
     </div>
-    <div class="section__text">
-        <p class="section__text__p1">Hello, I'm</p>
-        <h1 class="title">Kalkidan S. Dagnu</h1>
-        <p class="section__text__p2">Software Engineer</p>
-        <div class="btn-container">
-            <button
-                    class="btn btn-color-2"
-                    onclick="window.open('./assets/Kal-Resume.pdf')"
-            >
-                Download CV
-            </button>
-            <button class="btn btn-color-1" onclick="location.href='./#contact'">
-                Contact Info
-            </button>
+</section>
+
+<!-- RESUME -->
+<section id="resume" class="reveal">
+    <h2 class="section-title">RESUME</h2>
+    <p class="small-intro">Explore my background including professional experience and academic qualifications. Download a PDF version below.</p>
+
+    <div style="text-align:center;margin-bottom:32px">
+        <a class="download-resume-btn" href="assets/KalkidanResume.pdf" download>Download Resume ⬇</a>
+    </div>
+
+    <div class="resume-grid">
+        <!-- Experience (left) -->
+        <div>
+            <h3 style="font-family:var(--serif);margin-bottom:18px">Professional Experience</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-bullet" aria-hidden></div>
+                    <h4>Software Engineer II</h4>
+                    <div class="meta">Nov 2022 – Aug 2024 • Saras Analytics, Addis Ababa, Ethiopia</div>
+                    <ul>
+                        <li>Developed a key feature in the flagship software, increasing user engagement by 20%.</li>
+                        <li>Collaborated with QA team to resolve bugs, enhancing software stability and performance.</li>
+                        <li>Implemented Agile practices, reducing project delivery time by 15% and improving workflow efficiency.</li>
+                        <li>Mentored junior engineers, leading to a 10% increase in team productivity.</li>
+                        <li>Enhanced product quality and scalability through continuous code review, optimization, and best practices.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-bullet" aria-hidden></div>
+                    <h4>Programmer Analyst</h4>
+                    <div class="meta">Nov 2019 – Nov 2022 • Enat Bank S.C, Addis Ababa</div>
+                    <ul>
+                        <li>Developed and implemented an automated transaction processing system, reducing errors by 15%.</li>
+                        <li>Optimized legacy codebase to enhance system performance by 20% and ensure scalability.</li>
+                        <li>Resolved critical banking system issues by collaborating with cross-functional teams, ensuring uninterrupted operations.</li>
+                        <li>Conducted code reviews, enforced best practices, and improved overall code quality.</li>
+                        <li>Mentored junior developers to enhance team capability and technical proficiency.</li>
+                    </ul>
+                </div>
+
+                <!--        <div class="timeline-item">-->
+                <!--          <div class="timeline-bullet" aria-hidden></div>-->
+                <!--          <h4>Junior E-Banking Technical Officer</h4>-->
+                <!--          <div class="meta">Jan 2022 – Jan 2023 • Enat Bank S.C</div>-->
+                <!--          <p>Provided technical support for mobile banking systems and assisted with monitoring, testing, and deployment activities.</p>-->
+                <!--          <ul>-->
+                <!--            <li>Provided technical assistance & support.</li>-->
+                <!--            <li>Monitored systems and prepared reports.</li>-->
+                <!--            <li>Assisted in feature testing and deployment.</li>-->
+                <!--          </ul>-->
+                <!--        </div>-->
+
+                <!--        <div class="timeline-item">-->
+                <!--          <div class="timeline-bullet" aria-hidden></div>-->
+                <!--          <h4>UI/UX & Graphics Designer</h4>-->
+                <!--          <div class="meta">Oct 2021 – Jan 2022 • IE Network Solutions, Addis Ababa</div>-->
+                <!--          <p>Designed marketing collateral, managed branding projects and enhanced online visibility via social media and visual strategy.</p>-->
+                <!--          <ul>-->
+                <!--            <li>Design of marketing materials and branding collateral.</li>-->
+                <!--            <li>Managed design projects and creative delivery.</li>-->
+                <!--            <li>Improved digital visibility via social channels.</li>-->
+                <!--          </ul>-->
+                <!--        </div>-->
+            </div>
         </div>
-        <div id="socials-container">
-            <img
-                    src="./assets/linkedin.png"
-                    alt="My LinkedIn profile"
-                    class="icon"
-                    onclick="location.href='https://linkedin.com/in/kalkidan-dagnu'"
-            />
-            <img
-                    src="./assets/github.png"
-                    alt="My Github profile"
-                    class="icon"
-                    onclick="location.href='https://github.com/Kalkidan-Dagnu'"
-            />
+
+        <!-- Education (right) -->
+        <div>
+            <h3 style="font-family:var(--serif);margin-bottom:18px">Education</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-bullet" aria-hidden></div>
+                    <h4>MSc in Software Engineering</h4>
+                    <div class="meta">2023 – Present • Addis Ababa University</div>
+                    <p>Focus: software development, project management and cybersecurity.</p>
+                    <ul>
+                        <li>Design and management of complex software systems.</li>
+                        <li>Security and scalable architectures.</li>
+                        <li>Project management methodologies.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-bullet" aria-hidden></div>
+                    <h4>BSc in Computer Science</h4>
+                    <div class="meta">2018 – 2021 • Dilla University</div>
+                    <p>Bachelor of Science in Computer Science covering programming, data structures and software engineering fundamentals.</p>
+                    <ul>
+                        <li>Core programming and algorithms.</li>
+                        <li>Software development fundamentals.</li>
+                        <li>Problem-solving & system design.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </section>
-<section id="about">
-    <p class="section__text__p1">Get To Know More</p>
-    <h1 class="title">About Me</h1>
-    <div class="section-container">
-        <div class="section__pic-container">
-            <img
-                    src="./assets/about-pic.png"
-                    alt="Profile picture"
-                    class="about-pic"
-            />
-        </div>
-        <div class="about-details-container">
-            <div class="about-containers">
-                <div class="details-container">
-                    <img
-                            src="./assets/experience.png"
-                            alt="Experience icon"
-                            class="icon"
-                    />
-                    <h3>Experience</h3>
-                    <p>4+ years <br />Software Engineer</p>
-                </div>
-                <div class="details-container">
-                    <img
-                            src="./assets/education.png"
-                            alt="Education icon"
-                            class="icon"
-                    />
-                    <h3>Education</h3>
-                    <p>B.Sc. Bachelors Degree<br />M.Sc. Masters Degree</p>
-                </div>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="reveal">
+    <h2 class="section-title">PORTFOLIO</h2>
+
+    <div class="portfolio-grid">
+        <div class="project-card">
+            <div class="project-thumb" style="background:linear-gradient(180deg,#0b0b0b,#111);position:relative">
+                EVANGADI FORUM
             </div>
-            <div class="text-container">
-                <p>
-                    I am a results-driven Software Engineer with extensive experience in designing and developing
-                    scalable systems using Spring Boot, Java, Kotlin, Angular, and microservices architectures.
-                    I have contributed to high-impact projects improving efficiency, scalability, and real-time
-                    data processing across banking and analytics platforms. I am passionate about system
-                    optimization, automation, AI-driven analytics, and building robust enterprise solutions.
-                </p>
+            <div class="project-meta">
+                <div style="flex:1">
+                    <strong>Evangadi Forum</strong>
+                    <div class="muted">React • Node.js • Firebase</div>
+                </div>
+                <div class="tech-icons">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/react-native.png" alt="react"/>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/nodejs.png" alt="node"/>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/firebase.png" alt="firebase"/>
+                </div>
             </div>
         </div>
-    </div>
-    <img
-            src="./assets/arrow.png"
-            alt="Arrow icon"
-            class="icon arrow"
-            onclick="location.href='./#experience'"
-    />
-</section>
-<section id="experience">
-    <p class="section__text__p1">Explore My</p>
-    <h1 class="title">Experience</h1>
-    <div class="experience-details-container">
-        <div class="about-containers">
-            <div class="details-container">
-                <h2 class="experience-sub-title">Saras Analytics — Software Engineer II</h2>
-                <div class="article-container">
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Kotlin</h3>
-                            <p>Experienced</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Spring boot</h3>
-                            <p>Experienced</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>SASS</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Java</h3>
-                            <p>Expert</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>TypeScript</h3>
-                            <p>Basic</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>PostgreSQL</h3>
-                            <p>Expert</p>
-                        </div>
-                    </article>
+
+        <div class="project-card">
+            <div class="project-thumb" style="background:linear-gradient(180deg,#111,#0b71ff);position:relative">
+                AMAZON CLONE
+            </div>
+            <div class="project-meta">
+                <div style="flex:1">
+                    <strong>Amazon Clone</strong>
+                    <div class="muted">React • Node • Firestore</div>
+                </div>
+                <div class="tech-icons">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/react-native.png" alt="react"/>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/nodejs.png" alt="node"/>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/firebase.png" alt="firebase"/>
                 </div>
             </div>
-            <div class="details-container">
-                <h2 class="experience-sub-title">Enat Bank — Programmer Analyst</h2>
-                <div class="article-container">
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>PostgreSQL</h3>
-                            <p>Basic</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Node JS</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Express JS</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Git</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
+        </div>
+
+        <div class="project-card">
+            <div class="project-thumb" style="background:linear-gradient(180deg,#8b0000,#6d0000);position:relative">
+                NETFLIX DEMO
+            </div>
+            <div class="project-meta">
+                <div style="flex:1">
+                    <strong>Netflix UI</strong>
+                    <div class="muted">React • TMDB • Firebase</div>
+                </div>
+                <div class="tech-icons">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/react-native.png" alt="react"/>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/firebase.png" alt="firebase"/>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/movie-projector.png" alt="tmdb"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-thumb" style="background:linear-gradient(180deg,#fff,#f4f6fb);color:#000;position:relative">
+                APP MOCKUP
+            </div>
+            <div class="project-meta">
+                <div style="flex:1">
+                    <strong>App Mockup</strong>
+                    <div class="muted">React • Node • Bootstrap</div>
+                </div>
+                <div class="tech-icons">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/react-native.png" alt="react"/>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/nodejs.png" alt="node"/>
+                    <img src="https://img.icons8.com/ios-filled/50/000000/bootstrap.png" alt="bootstrap"/>
                 </div>
             </div>
         </div>
     </div>
-    <img
-            src="./assets/arrow.png"
-            alt="Arrow icon"
-            class="icon arrow"
-            onclick="location.href='./#projects'"
-    />
 </section>
-<section id="projects">
-    <p class="section__text__p1">Browse My Recent</p>
-    <h1 class="title">Projects</h1>
-    <div class="experience-details-container">
-        <div class="about-containers">
-            <div class="details-container color-container">
-                <div class="article-container">
-                    <img
-                            src="./assets/project-1.png"
-                            alt="Project 1"
-                            class="project-img"
-                    />
-                </div>
-                <h2 class="experience-sub-title project-title">Project One</h2>
-                <div class="btn-container">
-                    <button
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/'"
-                    >
-                        Github
-                    </button>
-                    <button
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/'"
-                    >
-                        Live Demo
-                    </button>
-                </div>
-            </div>
-            <div class="details-container color-container">
-                <div class="article-container">
-                    <img
-                            src="./assets/project-2.png"
-                            alt="Project 2"
-                            class="project-img"
-                    />
-                </div>
-                <h2 class="experience-sub-title project-title">Project Two</h2>
-                <div class="btn-container">
-                    <button
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/'"
-                    >
-                        Github
-                    </button>
-                    <button
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/'"
-                    >
-                        Live Demo
-                    </button>
-                </div>
-            </div>
-            <div class="details-container color-container">
-                <div class="article-container">
-                    <img
-                            src="./assets/project-3.png"
-                            alt="Project 3"
-                            class="project-img"
-                    />
-                </div>
-                <h2 class="experience-sub-title project-title">Project Three</h2>
-                <div class="btn-container">
-                    <button
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/'"
-                    >
-                        Github
-                    </button>
-                    <button
-                            class="btn btn-color-2 project-btn"
-                            onclick="location.href='https://github.com/'"
-                    >
-                        Live Demo
-                    </button>
-                </div>
-            </div>
+
+<!-- SERVICES -->
+<section id="services" class="reveal">
+    <h2 class="section-title">SERVICES</h2>
+    <p class="small-intro">I offer a range of services to help bring digital projects to life — from backend systems and integrations to UI/UX and content.</p>
+
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-icon">🔧</div>
+            <h4>Backend Development</h4>
+            <p>APIs, microservices, ETL systems and integration with databases and messaging (Kafka).</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">☁️</div>
+            <h4>Cloud & DevOps</h4>
+            <p>Containerization, Docker, CI/CD pipelines and cloud deployment support for production systems.</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">🧭</div>
+            <h4>Full-Stack Development</h4>
+            <p>Angular / React frontends paired with Spring Boot/Kotlin backends for end-to-end apps.</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">🎨</div>
+            <h4>UI/UX & Branding</h4>
+            <p>Interfaces, visual design, and marketing assets for consistent brand delivery.</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">🎬</div>
+            <h4>Content & Video</h4>
+            <p>Product videos, tutorials, and marketing content to support product adoption and learning.</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">⚡</div>
+            <h4>Performance Optimization</h4>
+            <p>Site performance, database optimization and overall reliability improvements.</p>
         </div>
     </div>
-    <img
-            src="./assets/arrow.png"
-            alt="Arrow icon"
-            class="icon arrow"
-            onclick="location.href='./#contact'"
-    />
 </section>
-<section id="skills">
-    <p class="section__text__p1">Browse My Recent</p>
-    <h1 class="title">Technical Skills</h1>
-    <div class="experience-details-container">
-        <div class="about-containers">
-            <div class="details-container">
-                <h2 class="experience-sub-title">Languages</h2>
-                <div class="article-container">
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Kotlin</h3>
-                            <p>Experienced</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Javascript</h3>
-                            <p>Experienced</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Typescript</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Java</h3>
-                            <p>Expert</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>TypeScript</h3>
-                            <p>Basic</p>
-                        </div>
-                    </article>
+
+<!-- CONTACT -->
+<section id="contact">
+    <h1 class="section-title">CONTACT</h1>
+
+    <p class="contact-desc">
+        I’d love to hear from you! Whether you have a new project in mind, are looking for a creative collaborator, or just want to connect, feel free to reach out. I’m always open to discussing new ideas, sharing insights, or simply having a conversation about our shared interests. Let’s explore how we can work together to create something exceptional.     </p>
+
+    <div class="contact-grid">
+
+        <div class="contact-left">
+
+            <div class="contact-item">
+                <div class="icon-box"><i class='bx bxs-map'></i></div>
+                <div>
+                    <h3>Location:</h3>
+                    <p>Addis Ababa, Ethiopia</p>
                 </div>
             </div>
-            <div class="details-container">
-                <h2 class="experience-sub-title">Frameworks</h2>
-                <div class="article-container">
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Spring Boot</h3>
-                            <p>Basic</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Angular</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>React</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Hibernate</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Express.js</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
+
+            <div class="contact-item">
+                <div class="icon-box"><i class='bx bx-envelope'></i></div>
+                <div>
+                    <h3>Email:</h3>
+                    <p>kalajanegassykoki@gmail.com</p>
                 </div>
             </div>
-            <div class="details-container">
-                <h2 class="experience-sub-title">Tools</h2>
-                <div class="article-container">
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Docker</h3>
-                            <p>Basic</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Kafka</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Kubernetes</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Redis</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Jenkins</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Prometheus, Grafana, ArgoCD
-                            </h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>RabbitMQ</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>AWS</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-            <div class="details-container">
-                <h2 class="experience-sub-title">Platforms</h2>
-                <div class="article-container">
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>Linux</h3>
-                            <p>Experienced</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>AWS</h3>
-                            <p>Experienced</p>
-                        </div>
-                    </article>
-                    <article>
-                        <img
-                                src="./assets/checkmark.png"
-                                alt="Experience icon"
-                                class="icon"
-                        />
-                        <div>
-                            <h3>GCP</h3>
-                            <p>Intermediate</p>
-                        </div>
-                    </article>
+
+            <div class="contact-item">
+                <div class="icon-box"><i class='bx bx-phone-call'></i></div>
+                <div>
+                    <h3>Call:</h3>
+                    <p>251922528215</p>
                 </div>
             </div>
 
         </div>
-    </div>
-    <img
-            src="./assets/arrow.png"
-            alt="Arrow icon"
-            class="icon arrow"
-            onclick="location.href='./#contact'"
-    />
-</section>
-<section id="contact">
-    <p class="section__text__p1">Get in Touch</p>
-    <h1 class="title">Contact Me</h1>
-    <div class="contact-info-upper-container">
-        <div class="contact-info-container">
-            <img
-                    src="./assets/email.png"
-                    alt="Email icon"
-                    class="icon contact-icon email-icon"
-            />
-            <p><a href="mailto:examplemail@gmail.com">Example@gmail.com</a></p>
+
+        <div class="contact-right">
+            <img src="assets/connect.png">
         </div>
-        <div class="contact-info-container">
-            <img
-                    src="./assets/linkedin.png"
-                    alt="LinkedIn icon"
-                    class="icon contact-icon"
-            />
-            <p><a href="https://www.linkedin.com">LinkedIn</a></p>
-        </div>
+
     </div>
 </section>
+
+<!-- FOOTER -->
 <footer>
-    <nav>
-        <div class="nav-links-container">
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-    <p>Copyright &#169; 2023 Kal D. All Rights Reserved.</p>
+    <h3>Kalkidan Dagnu</h3>
+    <p> I'd love to hear from you! Whether you have a project in mind, want to collaborate, or just want to say hello, feel free to reach out. </p>
+    <div class="social-links">
+        <a href="https://www.linkedin.com/in/kalkidan-dagnu" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        <a href="https://github.com/kalkidan-dagnu" target="_blank" class="github"><i class="bx bxl-github"></i></a>
+        <a href="https://x.com/kalkidan-dagnu" target="_blank" class="twitter">
+            <i class="fa fa-brands fa-x-twitter"></i></a>
+        <a href="https://www.youtube.com/nebermedia" target="_blank" class="youtube"><i class="bx bxl-youtube"></i></a>
+    </div>
+
 </footer>
-<script src="script.js"></script>
+
+<script>
+    /* Typing effect for hero */
+    const words = ["Software Engineer","Backend Developer","Digital Banking Specialist"];
+    let w=0, ch=0, deleting=false;
+    const el = document.getElementById('typing');
+
+    function typeTick(){
+      const word = words[w];
+      if(!deleting){
+        ch++;
+        if(el) el.textContent = word.substring(0,ch);
+        if(ch === word.length){ deleting = true; setTimeout(typeTick,900); return; }
+      } else {
+        ch--;
+        if(el) el.textContent = word.substring(0,ch);
+        if(ch === 0){ deleting=false; w=(w+1)%words.length; }
+      }
+      setTimeout(typeTick,80 + Math.random()*40);
+    }
+    typeTick();
+
+    /* Scroll reveal simple */
+    /* SECTION LEVEL ANIMATION */
+    const sections = document.querySelectorAll("section.reveal-section");
+
+    const sectionObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add("visible");
+        }
+      });
+    },{threshold: 0.25});
+
+    sections.forEach(sec=>{
+      sectionObserver.observe(sec);
+    });
+
+
+</script>
+
 </body>
 </html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8" />-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
+<!--    <title>My Portfolio</title>-->
+<!--    <link rel="stylesheet" href="style.css" />-->
+<!--    <link rel="stylesheet" href="mediaqueries.css" />-->
+<!--</head>-->
+<!--<body>-->
+<!--<nav id="desktop-nav">-->
+<!--    <div class="logo">Kalkidan Dagnu</div>-->
+<!--    <div>-->
+<!--        <ul class="nav-links">-->
+<!--            <li><a href="#about">About</a></li>-->
+<!--            <li><a href="#experience">Experience</a></li>-->
+<!--            <li><a href="#projects">Projects</a></li>-->
+<!--            <li><a href="#contact">Contact</a></li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</nav>-->
+<!--<nav id="hamburger-nav">-->
+<!--    <div class="logo">Kalkidan Dagnu</div>-->
+<!--    <div class="hamburger-menu">-->
+<!--        <div class="hamburger-icon" onclick="toggleMenu()">-->
+<!--            <span></span>-->
+<!--            <span></span>-->
+<!--            <span></span>-->
+<!--        </div>-->
+<!--        <div class="menu-links">-->
+<!--            <li><a href="#about" onclick="toggleMenu()">About</a></li>-->
+<!--            <li><a href="#experience" onclick="toggleMenu()">Experience</a></li>-->
+<!--            <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>-->
+<!--            <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
+<!--<section id="profile">-->
+<!--    <div class="section__pic-container">-->
+<!--        <img src="./assets/profile-pic.png" alt="Kal's profile picture" />-->
+<!--    </div>-->
+<!--    <div class="section__text">-->
+<!--        <p class="section__text__p1">Hello, I'm</p>-->
+<!--        <h1 class="title">Kalkidan S. Dagnu</h1>-->
+<!--        <p class="section__text__p2">Software Engineer</p>-->
+<!--        <div class="btn-container">-->
+<!--            <button-->
+<!--                    class="btn btn-color-2"-->
+<!--                    onclick="window.open('./assets/Kal-Resume.pdf')"-->
+<!--            >-->
+<!--                Download CV-->
+<!--            </button>-->
+<!--            <button class="btn btn-color-1" onclick="location.href='./#contact'">-->
+<!--                Contact Info-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <div id="socials-container">-->
+<!--            <img-->
+<!--                    src="./assets/linkedin.png"-->
+<!--                    alt="My LinkedIn profile"-->
+<!--                    class="icon"-->
+<!--                    onclick="location.href='https://linkedin.com/in/kalkidan-dagnu'"-->
+<!--            />-->
+<!--            <img-->
+<!--                    src="./assets/github.png"-->
+<!--                    alt="My Github profile"-->
+<!--                    class="icon"-->
+<!--                    onclick="location.href='https://github.com/Kalkidan-Dagnu'"-->
+<!--            />-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<!--<section id="about">-->
+<!--    <p class="section__text__p1">Get To Know More</p>-->
+<!--    <h1 class="title">About Me</h1>-->
+<!--    <div class="section-container">-->
+<!--        <div class="section__pic-container">-->
+<!--            <img-->
+<!--                    src="./assets/about-pic.png"-->
+<!--                    alt="Profile picture"-->
+<!--                    class="about-pic"-->
+<!--            />-->
+<!--        </div>-->
+<!--        <div class="about-details-container">-->
+<!--            <div class="about-containers">-->
+<!--                <div class="details-container">-->
+<!--                    <img-->
+<!--                            src="./assets/experience.png"-->
+<!--                            alt="Experience icon"-->
+<!--                            class="icon"-->
+<!--                    />-->
+<!--                    <h3>Experience</h3>-->
+<!--                    <p>4+ years <br />Software Engineer</p>-->
+<!--                </div>-->
+<!--                <div class="details-container">-->
+<!--                    <img-->
+<!--                            src="./assets/education.png"-->
+<!--                            alt="Education icon"-->
+<!--                            class="icon"-->
+<!--                    />-->
+<!--                    <h3>Education</h3>-->
+<!--                    <p>B.Sc. Bachelors Degree<br />M.Sc. Masters Degree</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="text-container">-->
+<!--                <p>-->
+<!--                    I am a results-driven Software Engineer with extensive experience in designing and developing-->
+<!--                    scalable systems using Spring Boot, Java, Kotlin, Angular, and microservices architectures.-->
+<!--                    I have contributed to high-impact projects improving efficiency, scalability, and real-time-->
+<!--                    data processing across banking and analytics platforms. I am passionate about system-->
+<!--                    optimization, automation, AI-driven analytics, and building robust enterprise solutions.-->
+<!--                </p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <img-->
+<!--            src="./assets/arrow.png"-->
+<!--            alt="Arrow icon"-->
+<!--            class="icon arrow"-->
+<!--            onclick="location.href='./#experience'"-->
+<!--    />-->
+<!--</section>-->
+<!--<section id="experience">-->
+<!--    <p class="section__text__p1">Explore My</p>-->
+<!--    <h1 class="title">Experience</h1>-->
+<!--    <div class="experience-details-container">-->
+<!--        <div class="about-containers">-->
+<!--            <div class="details-container">-->
+<!--                <h2 class="experience-sub-title">Saras Analytics — Software Engineer II</h2>-->
+<!--                <div class="article-container">-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Kotlin</h3>-->
+<!--                            <p>Experienced</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Spring boot</h3>-->
+<!--                            <p>Experienced</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>SASS</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Java</h3>-->
+<!--                            <p>Expert</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>TypeScript</h3>-->
+<!--                            <p>Basic</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>PostgreSQL</h3>-->
+<!--                            <p>Expert</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="details-container">-->
+<!--                <h2 class="experience-sub-title">Enat Bank — Programmer Analyst</h2>-->
+<!--                <div class="article-container">-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>PostgreSQL</h3>-->
+<!--                            <p>Basic</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Node JS</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Express JS</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Git</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <img-->
+<!--            src="./assets/arrow.png"-->
+<!--            alt="Arrow icon"-->
+<!--            class="icon arrow"-->
+<!--            onclick="location.href='./#projects'"-->
+<!--    />-->
+<!--</section>-->
+<!--<section id="projects">-->
+<!--    <p class="section__text__p1">Browse My Recent</p>-->
+<!--    <h1 class="title">Projects</h1>-->
+<!--    <div class="experience-details-container">-->
+<!--        <div class="about-containers">-->
+<!--            <div class="details-container color-container">-->
+<!--                <div class="article-container">-->
+<!--                    <img-->
+<!--                            src="./assets/project-1.png"-->
+<!--                            alt="Project 1"-->
+<!--                            class="project-img"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <h2 class="experience-sub-title project-title">Project One</h2>-->
+<!--                <div class="btn-container">-->
+<!--                    <button-->
+<!--                            class="btn btn-color-2 project-btn"-->
+<!--                            onclick="location.href='https://github.com/'"-->
+<!--                    >-->
+<!--                        Github-->
+<!--                    </button>-->
+<!--                    <button-->
+<!--                            class="btn btn-color-2 project-btn"-->
+<!--                            onclick="location.href='https://github.com/'"-->
+<!--                    >-->
+<!--                        Live Demo-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="details-container color-container">-->
+<!--                <div class="article-container">-->
+<!--                    <img-->
+<!--                            src="./assets/project-2.png"-->
+<!--                            alt="Project 2"-->
+<!--                            class="project-img"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <h2 class="experience-sub-title project-title">Project Two</h2>-->
+<!--                <div class="btn-container">-->
+<!--                    <button-->
+<!--                            class="btn btn-color-2 project-btn"-->
+<!--                            onclick="location.href='https://github.com/'"-->
+<!--                    >-->
+<!--                        Github-->
+<!--                    </button>-->
+<!--                    <button-->
+<!--                            class="btn btn-color-2 project-btn"-->
+<!--                            onclick="location.href='https://github.com/'"-->
+<!--                    >-->
+<!--                        Live Demo-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="details-container color-container">-->
+<!--                <div class="article-container">-->
+<!--                    <img-->
+<!--                            src="./assets/project-3.png"-->
+<!--                            alt="Project 3"-->
+<!--                            class="project-img"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <h2 class="experience-sub-title project-title">Project Three</h2>-->
+<!--                <div class="btn-container">-->
+<!--                    <button-->
+<!--                            class="btn btn-color-2 project-btn"-->
+<!--                            onclick="location.href='https://github.com/'"-->
+<!--                    >-->
+<!--                        Github-->
+<!--                    </button>-->
+<!--                    <button-->
+<!--                            class="btn btn-color-2 project-btn"-->
+<!--                            onclick="location.href='https://github.com/'"-->
+<!--                    >-->
+<!--                        Live Demo-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <img-->
+<!--            src="./assets/arrow.png"-->
+<!--            alt="Arrow icon"-->
+<!--            class="icon arrow"-->
+<!--            onclick="location.href='./#contact'"-->
+<!--    />-->
+<!--</section>-->
+<!--<section id="skills">-->
+<!--    <p class="section__text__p1">Browse My Recent</p>-->
+<!--    <h1 class="title">Technical Skills</h1>-->
+<!--    <div class="experience-details-container">-->
+<!--        <div class="about-containers">-->
+<!--            <div class="details-container">-->
+<!--                <h2 class="experience-sub-title">Languages</h2>-->
+<!--                <div class="article-container">-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Kotlin</h3>-->
+<!--                            <p>Experienced</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Javascript</h3>-->
+<!--                            <p>Experienced</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Typescript</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Java</h3>-->
+<!--                            <p>Expert</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>TypeScript</h3>-->
+<!--                            <p>Basic</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="details-container">-->
+<!--                <h2 class="experience-sub-title">Frameworks</h2>-->
+<!--                <div class="article-container">-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Spring Boot</h3>-->
+<!--                            <p>Basic</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Angular</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>React</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Hibernate</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Express.js</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="details-container">-->
+<!--                <h2 class="experience-sub-title">Tools</h2>-->
+<!--                <div class="article-container">-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Docker</h3>-->
+<!--                            <p>Basic</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Kafka</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Kubernetes</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Redis</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Jenkins</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Prometheus, Grafana, ArgoCD-->
+<!--                            </h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>RabbitMQ</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>AWS</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="details-container">-->
+<!--                <h2 class="experience-sub-title">Platforms</h2>-->
+<!--                <div class="article-container">-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>Linux</h3>-->
+<!--                            <p>Experienced</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>AWS</h3>-->
+<!--                            <p>Experienced</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                    <article>-->
+<!--                        <img-->
+<!--                                src="./assets/checkmark.png"-->
+<!--                                alt="Experience icon"-->
+<!--                                class="icon"-->
+<!--                        />-->
+<!--                        <div>-->
+<!--                            <h3>GCP</h3>-->
+<!--                            <p>Intermediate</p>-->
+<!--                        </div>-->
+<!--                    </article>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--    <img-->
+<!--            src="./assets/arrow.png"-->
+<!--            alt="Arrow icon"-->
+<!--            class="icon arrow"-->
+<!--            onclick="location.href='./#contact'"-->
+<!--    />-->
+<!--</section>-->
+<!--<section id="contact">-->
+<!--    <p class="section__text__p1">Get in Touch</p>-->
+<!--    <h1 class="title">Contact Me</h1>-->
+<!--    <div class="contact-info-upper-container">-->
+<!--        <div class="contact-info-container">-->
+<!--            <img-->
+<!--                    src="./assets/email.png"-->
+<!--                    alt="Email icon"-->
+<!--                    class="icon contact-icon email-icon"-->
+<!--            />-->
+<!--            <p><a href="mailto:examplemail@gmail.com">Example@gmail.com</a></p>-->
+<!--        </div>-->
+<!--        <div class="contact-info-container">-->
+<!--            <img-->
+<!--                    src="./assets/linkedin.png"-->
+<!--                    alt="LinkedIn icon"-->
+<!--                    class="icon contact-icon"-->
+<!--            />-->
+<!--            <p><a href="https://www.linkedin.com">LinkedIn</a></p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<!--<footer>-->
+<!--    <nav>-->
+<!--        <div class="nav-links-container">-->
+<!--            <ul class="nav-links">-->
+<!--                <li><a href="#about">About</a></li>-->
+<!--                <li><a href="#experience">Experience</a></li>-->
+<!--                <li><a href="#projects">Projects</a></li>-->
+<!--                <li><a href="#contact">Contact</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </nav>-->
+<!--    <p>Copyright &#169; 2023 Kal D. All Rights Reserved.</p>-->
+<!--</footer>-->
+<!--<script src="script.js"></script>-->
+<!--</body>-->
+<!--</html>-->
 
 
 
